@@ -12,12 +12,13 @@ from Utils import load_model, feature_extractor_to_svm,svc,evaluate_svm_model_ex
 def basic_cnn():
     
     model = models.Sequential()
-    model.add(layers.Conv2D(32, (3, 3), input_shape=(48, 48, 1), activation='relu'))
+    #model.add(layers.Conv2D(32, (3, 3), input_shape=(48, 48, 1), activation='relu'))
+    model.add(layers.Conv2D(32, (3, 3), input_shape=(224, 224, 3), activation='relu'))
     model.add(layers.MaxPooling2D((2, 2)))
     model.add(layers.Flatten())
     model.add(layers.Dropout(0.5))
     model.add(layers.Dense(1024, activation='relu'))
-    model.add(layers.Dense(7, activation='softmax'))
+    model.add(layers.Dense(7, activation='softmax'))    #model.add(layers.Dense(7, activation='softmax'))
     model.summary()
     model.compile(loss='categorical_crossentropy',
                   optimizer=optimizers.RMSprop(lr=1e-4, decay=1e-6),
@@ -28,7 +29,7 @@ def basic_cnn():
 def dense_cnn():
     # conv  block 1
     model = models.Sequential()
-    model.add(layers.Conv2D(32, (3, 3), input_shape=(48, 48, 1), activation='relu'))
+    model.add(layers.Conv2D(32, (3, 3), input_shape=(224, 224, 3), activation='relu'))    # Replace input_shape=(48, 48, 1)
     model.add(BatchNormalization(axis=-1))
     model.add(layers.Conv2D(32, (3, 3), activation='relu'))
     model.add(BatchNormalization(axis=-1))

@@ -18,8 +18,8 @@ dataset_dir = os.path.join(base_dir, 'Dataset')
 #fer2013 = os.path.join(dataset_dir, 'fer2013')
 
 train_dir = os.path.join(dataset_dir, 'training')
-#validation_dir = os.path.join(fer2013, 'PublicTest')
-test_dir = os.path.join(dataset_dir, 'validation')
+validation_dir = os.path.join(dataset_dir, 'validation')
+test_dir = os.path.join(dataset_dir, 'testing')
 
 Models = os.path.join(os.getcwd(), 'Models')
 
@@ -29,10 +29,8 @@ digitsToSpecies = {'0' : 'alouatta_palliata',
                    '3' : 'macaca_fuscata',
                    '4' : 'cebuella_pygmea', 
                    '5' : 'cebus_capucinus', 
-                   '6' : 'mico_argentatus', 
-                   '7' : 'saimiri_sciureus',
-                   '8' : 'aotus_nigriceps', 
-                   '9' : 'trachypithecus_johnii'}
+                   '6' : 'mico_argentatus'
+}
 
 
 def plt_confusion_matrix(model):
@@ -44,7 +42,7 @@ def plt_confusion_matrix(model):
     confusion = confusion_matrix(test_generator.classes, y_pred)
     print(confusion)
     target_names = ['alouatta_palliata', 'erythrocebus_patas', 'cacajao_calvus', 'macaca_fuscata', 'cebuella_pygmea', 
-                    'cebus_capucinus', 'mico_argentatus', 'saimiri_sciureus', 'aotus_nigriceps', 'trachypithecus_johnii']
+                    'cebus_capucinus', 'mico_argentatus']
     df_cm = pd.DataFrame(confusion, index=[i for i in target_names],
                          columns=[i for i in target_names])
     plt.figure(figsize=(10, 7))     #Check parameters
@@ -183,7 +181,7 @@ def plt_expression(err, title):
     s = pd.Series(
         err,
         index=['alouatta_palliata', 'erythrocebus_patas', 'cacajao_calvus', 'macaca_fuscata', 'cebuella_pygmea', 
-               'cebus_capucinus', 'mico_argentatus', 'saimiri_sciureus', 'aotus_nigriceps', 'trachypithecus_johnii']
+               'cebus_capucinus', 'mico_argentatus']
     )
 
     sb.set()
@@ -191,7 +189,7 @@ def plt_expression(err, title):
     plt.ylabel('error rate')
     plt.xlabel('species')
 
-    my_colors = ['r', 'g', 'b', 'k', 'y', 'm', 'c', 'r', 'g', 'b'] 
+    my_colors = ['r', 'g', 'b', 'k', 'y', 'm', 'c'] 
 
     s.plot(
         kind='bar',

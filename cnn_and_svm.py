@@ -5,6 +5,8 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import seaborn as sn
 
+
+
 #load the previously trained deep CNN model
 h5filename = 'dense_cnn.h5'
 model = load_model(h5filename)
@@ -32,7 +34,8 @@ Y_pred = y_pred = classifier.predict(test_features)
 print('Confusion Matrix')
 confusion = confusion_matrix(test_labels, y_pred)
 print(confusion)
-target_names = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
+target_names = ['alouatta_palliata', 'erythrocebus_patas', 'cacajao_calvus', 'macaca_fuscata', 'cebuella_pygmea', 
+               'cebus_capucinus', 'mico_argentatus']
 df_cm = pd.DataFrame(confusion, index=[i for i in target_names],
                      columns=[i for i in target_names])
 plt.figure(figsize=(10, 7))
