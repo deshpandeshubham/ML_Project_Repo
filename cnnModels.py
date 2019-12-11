@@ -1,16 +1,14 @@
 from keras import layers
 from keras.layers.normalization import BatchNormalization
 from keras import optimizers
-from keras.applications.vgg16 import VGG16
-from sklearn.externals import joblib
 from keras import models
 import Utils
-from Utils import load_model, feature_extractor_to_svm,svc,evaluate_svm_model_expression_error_rate, plt_expression
+from Utils import load_model, feature_extractor_to_svm,svc,evaluate_svm_model_expression_error_rate
 
 
 
 def basic_cnn():
-    
+    print('Basic CNN')
     model = models.Sequential()
     #model.add(layers.Conv2D(32, (3, 3), input_shape=(48, 48, 1), activation='relu'))
     model.add(layers.Conv2D(32, (3, 3), input_shape=(224, 224, 3), activation='relu'))
@@ -18,7 +16,7 @@ def basic_cnn():
     model.add(layers.Flatten())
     model.add(layers.Dropout(0.5))
     model.add(layers.Dense(1024, activation='relu'))
-    model.add(layers.Dense(7, activation='softmax'))    #model.add(layers.Dense(7, activation='softmax'))
+    model.add(layers.Dense(7, activation='softmax'))    
     model.summary()
     model.compile(loss='categorical_crossentropy',
                   optimizer=optimizers.RMSprop(lr=1e-4, decay=1e-6),
@@ -61,7 +59,7 @@ def dense_cnn():
 def Lenet():
     # conv  block 1
     model = models.Sequential()
-    model.add(layers.Conv2D(32, (3, 3), input_shape=(48, 48, 1), activation='relu'))
+    model.add(layers.Conv2D(32, (3, 3), input_shape=(224, 224, 3), activation='relu'))
     model.add(layers.MaxPooling2D((2, 2)))
     model.add(layers.Conv2D(32, (3, 3), activation='relu'))
     model.add(layers.MaxPooling2D((2, 2)))

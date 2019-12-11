@@ -14,9 +14,6 @@ import seaborn as sb
 
 base_dir = os.getcwd()
 dataset_dir = os.path.join(base_dir, 'Dataset')
-#fer2013_csv = os.path.join(dataset_dir, 'fer2013.csv')
-#fer2013 = os.path.join(dataset_dir, 'fer2013')
-
 train_dir = os.path.join(dataset_dir, 'training')
 validation_dir = os.path.join(dataset_dir, 'validation')
 test_dir = os.path.join(dataset_dir, 'testing')
@@ -30,7 +27,7 @@ digitsToSpecies = {'0' : 'alouatta_palliata',
                    '4' : 'cebuella_pygmea', 
                    '5' : 'cebus_capucinus', 
                    '6' : 'mico_argentatus'
-}
+                  }
 
 
 def plt_confusion_matrix(model):

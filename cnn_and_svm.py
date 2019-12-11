@@ -6,7 +6,6 @@ from matplotlib import pyplot as plt
 import seaborn as sn
 
 
-
 #load the previously trained deep CNN model
 h5filename = 'dense_cnn.h5'
 model = load_model(h5filename)
