@@ -1,47 +1,44 @@
 import os
 import json
-from Utils import image_data_generator, evaluate_model, plt_acc_loss,  \
-    evaluate_expression_error_rate, plt_expression, save_model, load_model, plt_confusion_matrix
-from cnnModels import basic_cnn, dense_cnn, Lenet
-
+from Utils import generate_image_data, model_evaluator, plot_accuracy_loss, specie_error_rate_evaluator, plot_species, save_trained_model, plot_confusion_matrix
+from cnnModels import Lenet
 
 model = Lenet()
 
-base_dir = os.getcwd()
-dataset_dir = os.path.join(base_dir, 'Dataset')
-#fer2013 = os.path.join(dataset_dir, 'fer2013')
+base_directory = os.getcwd()
+dataset_directory = os.path.join(base_directory, 'Dataset')
 
 # Specify the training, validation and testing directory
-train_dir = os.path.join(dataset_dir, 'training')
-validation_dir = os.path.join(dataset_dir, 'validation')
-test_dir = os.path.join(dataset_dir, 'testing')
+training_directory = os.path.join(dataset_directory, 'training')
+validation_directory = os.path.join(dataset_directory, 'validation')
+test_directory = os.path.join(dataset_directory, 'testing')
 
 # Get batches of data
-train_generator = image_data_generator(train_dir)
-validation_generator = image_data_generator(validation_dir)
+train_generator = generate_image_data(training_directory)
+validation_generator = generate_image_data(validation_directory)
 
 history = model.fit_generator(train_generator,
                               steps_per_epoch = 2,
                               epochs = 1,
                               validation_data = validation_generator,
-                              validation_steps = 180)
+                              validation_steps = 180) # 180
 
 with open('Lenet.json', 'w') as f:
     json.dump(history.history, f)
-predict = evaluate_model(model=model)
+predict = model_evaluator(model=model)
 print('Testing accuracy: ', predict[1])
 
 # Plot accuracy and loss
-plt_acc_loss(history)
+plot_accuracy_loss(history)
 
-test_generator = image_data_generator(test_dir, shuffle = False, batch_size = 1)
-err_expression = evaluate_expression_error_rate(model)
+test_generator = generate_image_data(test_directory, shuffle = False, batch_size = 1)
+error_specie = specie_error_rate_evaluator(model)
 
-# Plot individual expression error rate
-plt_expression(err_expression, 'Individual expression error rate (Overall %.2f%% accuracy)' % (predict[1] * 100))
+# Plot individual species error rate
+plot_species(error_specie, 'Individual Species error rate (Overall %.2f%% accuracy)' % (predict[1] * 100))
 
 #Plot confusion matrix
-#plt_confusion_matrix(model)
+#plot_confusion_matrix(model)
 
-save_model(model, 'Lenet.h5')
+save_trained_model(model, 'Lenet.h5')
 

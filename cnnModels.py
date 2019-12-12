@@ -3,8 +3,7 @@ from keras.layers.normalization import BatchNormalization
 from keras import optimizers
 from keras import models
 import Utils
-from Utils import load_model, feature_extractor_to_svm,svc,evaluate_svm_model_expression_error_rate
-
+from Utils import load_trained_model, svm_feature_extractor,svc,specie_error_rate_evaluator_svm
 
 
 def basic_cnn():
@@ -20,14 +19,14 @@ def basic_cnn():
     model.summary()
     model.compile(loss='categorical_crossentropy',
                   optimizer=optimizers.RMSprop(lr=1e-4, decay=1e-6),
-                  metrics=['acc'])
+                  metrics=['accuracy'])
     return model
 
 
 def dense_cnn():
     # conv  block 1
     model = models.Sequential()
-    model.add(layers.Conv2D(32, (3, 3), input_shape=(224, 224, 3), activation='relu'))    # Replace input_shape=(48, 48, 1)
+    model.add(layers.Conv2D(32, (3, 3), input_shape=(224, 224, 3), activation='relu'))    
     model.add(BatchNormalization(axis=-1))
     model.add(layers.Conv2D(32, (3, 3), activation='relu'))
     model.add(BatchNormalization(axis=-1))
@@ -52,7 +51,7 @@ def dense_cnn():
     model.summary()
     model.compile(loss='categorical_crossentropy',
                   optimizer=optimizers.RMSprop(lr=1e-4, decay=1e-6),
-                  metrics=['acc'])
+                  metrics=['accuracy'])
     return model
 
 
@@ -70,7 +69,7 @@ def Lenet():
     model.summary()
     model.compile(loss='categorical_crossentropy',
                   optimizer=optimizers.RMSprop(lr=1e-4, decay=1e-6),
-                  metrics=['acc'])
+                  metrics=['accuracy'])
     return model
 
 
@@ -78,20 +77,20 @@ def Lenet():
 def cnn_and_svm():
     #Load the dense model
     h5filename = 'dense_cnn.h5'
-    model = load_model(h5filename)
+    model = load_trained_model(h5filename)
     model.summary()
     layer_name = 'dense_1'
-    train_features, train_labels = feature_extractor_to_svm(Utils.train_dir, model, layer_name=layer_name)
-    validation_features, validation_labels = feature_extractor_to_svm(Utils.validation_dir, model,
+    train_features, train_labels = svm_feature_extractor(Utils.training_directory, model, layer_name=layer_name)
+    validation_features, validation_labels = svm_feature_extractor(Utils.validation_directory, model,
                                                                       layer_name=layer_name)
-    test_features, test_labels = feature_extractor_to_svm(Utils.test_dir, model, layer_name=layer_name)
+    test_features, test_labels = svm_feature_extractor(Utils.test_directory, model, layer_name=layer_name)
     model_file = "cnn_and_svm.joblib"
-    classifier, acc = svc(train_features, train_labels, validation_features, validation_labels)
-    print("Cnn and Svm (Accuracy %.2f%% )" % (acc * 100))
-    Utils.save_model(model, 'cnn_and_svm.h5')
+    classifier, accuracy = svc(train_features, train_labels, validation_features, validation_labels)
+    print("Cnn and Svm (Accuracy %.2f%% )" % (accuracy * 100))
+    Utils.save_trained_model(model, 'cnn_and_svm.h5')
     #classifier = joblib.load(model_file)
-    score = classifier.score(test_features, test_labels)
-    print(score)
-    err= evaluate_svm_model_expression_error_rate(classifier,test_features, test_labels)
-    Utils.plt_expression(err, 'Individual expression error rate')
+    evaluation_score = classifier.evaluation_score(test_features, test_labels)
+    print(evaluation_score)
+    err= specie_error_rate_evaluator_svm(classifier,test_features, test_labels)
+    Utils.plot_species(err, 'Individual expression error rate')
     return classifier
