@@ -31,15 +31,13 @@ digitsToSpecies = {'0' : 'alouatta_palliata',
 
 
 def plot_confusion_matrix(model):
-
     test_generator = generate_image_data(test_directory, shuffle=False, batch_size=20)
-    Y_pred = model.predict_generator(test_generator, 180)  #180 - 2nd param
+    Y_pred = model.predict_generator(test_generator, 5) 
     y_pred = np.argmax(Y_pred, axis=1)
     print('*** Confusion Matrix ***')
     confusion_matrix_result = confusion_matrix(test_generator.classes, y_pred)
     print(confusion_matrix_result)
-    class_names = ['alouatta_palliata', 'erythrocebus_patas', 'cacajao_calvus', 'macaca_fuscata', 'cebuella_pygmea', 
-                    'cebus_capucinus', 'mico_argentatus']
+    class_names = ['alouatta_palliata', 'erythrocebus_patas', 'cacajao_calvus', 'macaca_fuscata', 'cebuella_pygmea', 'cebus_capucinus', 'mico_argentatus']
     df_cm = pd.DataFrame(confusion_matrix_result, index=[i for i in class_names],
                          columns=[i for i in class_names])
     plt.figure(figsize=(10, 7))     

@@ -3,7 +3,6 @@ import json
 from Utils import generate_image_data, model_evaluator, plot_accuracy_loss, specie_error_rate_evaluator, plot_species, save_trained_model, plot_confusion_matrix
 from cnnModels import basic_cnn
 
-
 model = basic_cnn()
 
 base_directory = os.getcwd()

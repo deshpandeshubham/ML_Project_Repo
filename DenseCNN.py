@@ -4,7 +4,6 @@ from Utils import generate_image_data, model_evaluator, plot_accuracy_loss, spec
 from cnnModels import dense_cnn
 
 model = dense_cnn()
-
 base_directory = os.getcwd()
 dataset_directory = os.path.join(base_directory, 'Dataset')
 
@@ -38,7 +37,7 @@ error_specie = specie_error_rate_evaluator(model)
 plot_species(error_specie, 'Individual expression error rate (Overall %.2f%% accuracy)' % (predict[1] * 100))
 
 #Plot confusion matrix
-#plot_confusion_matrix(model)
+plot_confusion_matrix(model)
 
 save_trained_model(model, 'dense_cnn.h5')
 
