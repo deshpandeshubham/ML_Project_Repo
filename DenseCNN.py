@@ -17,8 +17,8 @@ train_generator = generate_image_data(training_directory)
 validation_generator = generate_image_data(validation_directory)
 
 history = model.fit_generator(train_generator,
-                              steps_per_epoch = 2,
-                              epochs = 1,
+                              steps_per_epoch = 500,
+                              epochs = 10,
                               validation_data = validation_generator,
                               validation_steps = 180)
 
@@ -34,7 +34,7 @@ test_generator = generate_image_data(test_directory, shuffle = False, batch_size
 error_specie = specie_error_rate_evaluator(model)
 
 # Plot individual expression error rate
-plot_species(error_specie, 'Individual expression error rate (Overall %.2f%% accuracy)' % (predict[1] * 100))
+plot_species(error_specie, 'Individual species error rate (Overall %.2f%% accuracy)' % (predict[1] * 100))
 
 #Plot confusion matrix
 plot_confusion_matrix(model)

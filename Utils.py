@@ -45,7 +45,7 @@ def plot_confusion_matrix(model):
     plt.show()
 
     print('*** Classification Report ***')
-    classified_report = classification_report(test_generator.classes, y_pred, class_names=class_names)
+    classified_report = classification_report(test_generator.classes, y_pred, target_names=class_names)
     print(classified_report)
 
 
