@@ -6,23 +6,6 @@ import Utils
 from Utils import load_trained_model, svm_feature_extractor,svc,specie_error_rate_evaluator_svm
 
 
-def basic_cnn():
-    print('Basic CNN')
-    model = models.Sequential()
-    #model.add(layers.Conv2D(32, (3, 3), input_shape=(48, 48, 1), activation='relu'))
-    model.add(layers.Conv2D(32, (3, 3), input_shape=(224, 224, 3), activation='relu'))
-    model.add(layers.MaxPooling2D((2, 2)))
-    model.add(layers.Flatten())
-    model.add(layers.Dropout(0.5))
-    model.add(layers.Dense(1024, activation='relu'))
-    model.add(layers.Dense(7, activation='softmax'))    
-    model.summary()
-    model.compile(loss='categorical_crossentropy',
-                  optimizer=optimizers.RMSprop(lr=1e-4, decay=1e-6),
-                  metrics=['accuracy'])
-    return model
-
-
 def dense_cnn():
     # conv  block 1
     model = models.Sequential()
@@ -92,5 +75,5 @@ def cnn_and_svm():
     evaluation_score = classifier.evaluation_score(test_features, test_labels)
     print(evaluation_score)
     err= specie_error_rate_evaluator_svm(classifier,test_features, test_labels)
-    Utils.plot_species(err, 'Individual expression error rate')
+    Utils.plot_species(err, 'Individual species error rate')
     return classifier

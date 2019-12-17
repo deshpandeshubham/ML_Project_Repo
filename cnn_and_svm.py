@@ -26,7 +26,7 @@ print("Cnn and Svm (Accuracy %.2f%% )" % (accuracy * 100))
 evaluation_score = classifier.score(test_features, test_labels)
 print(evaluation_score)
 err = specie_error_rate_evaluator_svm(classifier, test_features, test_labels)
-Utils.plot_species(err, 'Individual expression error rate')
+Utils.plot_species(err, 'Individual species error rate')
 Y_pred = y_pred = classifier.predict(test_features)
 
 #Confusion matrix
