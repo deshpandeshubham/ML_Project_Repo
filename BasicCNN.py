@@ -1,9 +1,9 @@
 import os
 import json
 from Utils import generate_image_data, model_evaluator, plot_accuracy_loss, specie_error_rate_evaluator, plot_species, save_trained_model, plot_confusion_matrix
-from cnnModels import Lenet
+from cnnModels import basic_cnn
 
-model = Lenet()
+model = basic_cnn()
 base_directory = os.getcwd()
 dataset_directory = os.path.join(base_directory, 'Dataset')
 
@@ -12,6 +12,9 @@ training_directory = os.path.join(dataset_directory, 'training')
 validation_directory = os.path.join(dataset_directory, 'validation')
 test_directory = os.path.join(dataset_directory, 'testing')
 
+print('Training Dir----->', training_directory)
+print('Validation_Dir----->', validation_directory)
+print('Test Directory---->', test_directory)
 # Get batches of data
 train_generator = generate_image_data(training_directory)
 validation_generator = generate_image_data(validation_directory)
@@ -22,7 +25,7 @@ history = model.fit_generator(train_generator,
                               validation_data = validation_generator,
                               validation_steps = 180)
 
-with open('lenet.json', 'w') as f:
+with open('basic_cnn.json', 'w') as f:
     json.dump(history.history, f)
 predict = model_evaluator(model=model)
 print('Testing accuracy: ', predict[1])
@@ -39,5 +42,5 @@ plot_species(error_specie, 'Individual species error rate (Overall %.2f%% accura
 #Plot confusion matrix
 plot_confusion_matrix(model)
 
-save_trained_model(model, 'lenet.h5')
+save_trained_model(model, 'basic_cnn.h5')
 

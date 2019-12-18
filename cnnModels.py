@@ -6,6 +6,29 @@ import Utils
 from Utils import load_trained_model, svm_feature_extractor,svc,specie_error_rate_evaluator_svm
 
 
+def basic_cnn():
+    print('Basic CNN')    
+    model = models.Sequential()
+    print('Basic CNN 1')
+    model.add(layers.Conv2D(32, (3, 3), input_shape=(48, 48, 1), activation='relu'))
+    print('Basic CNN 2')
+    model.add(layers.MaxPooling2D((2, 2)))
+    print('Basic CNN 3')
+    model.add(layers.Flatten())
+    print('Basic CNN 4')
+    model.add(layers.Dropout(0.5))
+    print('Basic CNN 5')
+    model.add(layers.Dense(1024, activation='relu'))
+    print('Basic CNN 6')
+    model.add(layers.Dense(7, activation='softmax'))
+    print('Basic CNN 7')
+    model.summary()
+    print('Basic CNN 8')
+    model.compile(loss='categorical_crossentropy',
+                  optimizer=optimizers.RMSprop(lr=1e-4, decay=1e-6),
+                  metrics=['acc'])
+    return model
+
 def dense_cnn():
     # conv  block 1
     model = models.Sequential()
